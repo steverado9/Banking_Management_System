@@ -4,6 +4,7 @@ import com.steverado9.Banking.Management.System.entity.User;
 import com.steverado9.Banking.Management.System.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserController {
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     public UserController(UserService userService) {
         super();
@@ -42,6 +44,7 @@ public class UserController {
                 return "redirect:/sign_in";
             }
 
+            user.setPassword(passwordEncoder.encode(user.getPassword())); //hash password
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("successMessage", "Member created sucessfully!, please signin");
 
