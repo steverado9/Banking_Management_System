@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -64,7 +66,7 @@ public class UserController {
 
     @PostMapping("/sign_in")
     public String getUser(@ModelAttribute("user") User user, HttpSession session, RedirectAttributes redirectAttributes) {
-        User existingUser = userService.getUserByEmail(user.getEmail());
+        Optional existingUser = userService.getUserByUsername(user.getUsername());
 
         if(existingUser == null) {
             System.out.println("user does not exist");
@@ -72,7 +74,7 @@ public class UserController {
             return "redirect:/sign_in";
         }
 
-        String existingPassword = existingUser.getPassword();
+//        String existingPassword = existingUser.getClass();
         if (!user.getPassword().equalsIgnoreCase(existingPassword)) {
             System.out.println("Incorrect password");
             redirectAttributes.addFlashAttribute("errorMessage", "invalid email and password");

@@ -5,6 +5,8 @@ import com.steverado9.Banking.Management.System.repository.UserRepository;
 import com.steverado9.Banking.Management.System.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
