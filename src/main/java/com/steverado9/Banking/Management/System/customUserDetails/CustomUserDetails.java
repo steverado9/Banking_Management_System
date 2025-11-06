@@ -1,4 +1,4 @@
-package com.steverado9.Banking.Management.System.CustomUserDetails;
+package com.steverado9.Banking.Management.System.customUserDetails;
 
 import com.steverado9.Banking.Management.System.entity.User;
 import org.springframework.security.core.GrantedAuthority;

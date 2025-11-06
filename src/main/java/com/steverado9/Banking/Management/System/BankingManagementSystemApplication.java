@@ -7,10 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @SpringBootApplication
 public class BankingManagementSystemApplication implements CommandLineRunner {
@@ -27,11 +27,33 @@ public class BankingManagementSystemApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public void run(String... args) throws Exception {
-		User user1 = new User(
-			"Isaac Stephen", "steverado9", "stephen123", "isaac.stephen@gmail.com", "08012345678", "ADMIN", "15 Broad Street Lagos",  LocalDate.of(1995, 7, 14), "Software Engineer", "123456789", LocalDate.of(2025, 10, 20), null
-		);
-		userRepository.save(user1);
+		if (userRepository.findByUsername("steverado9").isEmpty()) {
+			String encodedPassword = passwordEncoder.encode("stephen123");
+
+			User user1 = new User(
+					"Isaac Stephen",
+					"steverado9",
+					encodedPassword,
+					"isaac.stephen@gmail.com",
+					"08012345678",
+					"ADMIN",
+					"15 Broad Street Lagos",
+					LocalDate.of(1995, 7, 14),
+					"Software Engineer",
+					"123456789",
+					LocalDate.of(2025, 10, 20),
+					null
+			);
+			userRepository.save(user1);
+			System.out.println("Default admin user created sucessfully");
+		} else {
+			System.out.println("Admin user already exists.");
+		}
+
 	}
 }

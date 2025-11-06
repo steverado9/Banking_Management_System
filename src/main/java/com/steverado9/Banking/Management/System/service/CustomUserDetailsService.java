@@ -1,13 +1,14 @@
 package com.steverado9.Banking.Management.System.service;
 
-import com.steverado9.Banking.Management.System.CustomUserDetails.CustomUserDetails;
+import com.steverado9.Banking.Management.System.customUserDetails.CustomUserDetails;
 import com.steverado9.Banking.Management.System.entity.User;
 import com.steverado9.Banking.Management.System.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

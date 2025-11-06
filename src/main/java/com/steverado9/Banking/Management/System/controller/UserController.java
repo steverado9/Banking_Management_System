@@ -19,14 +19,15 @@ public class UserController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         super();
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/create_user")
     public String createUserForm(Model model, HttpSession session) {
-        User loggedInUser = (User) session.getAttribute("loggedInUSer");
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
 
         if(loggedInUser == null) {
             return "redirect:/sign_in";
@@ -66,16 +67,16 @@ public class UserController {
 
     @PostMapping("/sign_in")
     public String getUser(@ModelAttribute("user") User user, HttpSession session, RedirectAttributes redirectAttributes) {
-        Optional existingUser = userService.getUserByUsername(user.getUsername());
+        Optional<User> existingUser = userService.getUserByUsername(user.getUsername());
 
-        if(existingUser == null) {
+        if(existingUser.isEmpty()) {
             System.out.println("user does not exist");
             redirectAttributes.addFlashAttribute("errorMessage", "invalid email and password");
             return "redirect:/sign_in";
         }
 
-//        String existingPassword = existingUser.getClass();
-        if (!user.getPassword().equalsIgnoreCase(existingPassword)) {
+        String existingPassword = existingUser.get().getPassword();
+        if (!passwordEncoder.matches(user.getPassword(), existingPassword)) {
             System.out.println("Incorrect password");
             redirectAttributes.addFlashAttribute("errorMessage", "invalid email and password");
             return "redirect:/sign_in";
