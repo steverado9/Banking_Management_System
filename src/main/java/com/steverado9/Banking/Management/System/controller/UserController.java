@@ -5,6 +5,7 @@ import com.steverado9.Banking.Management.System.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.webauthn.api.PublicKeyCose;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,18 +72,30 @@ public class UserController {
 
         if(existingUser.isEmpty()) {
             System.out.println("user does not exist");
-            redirectAttributes.addFlashAttribute("errorMessage", "invalid email and password");
+            redirectAttributes.addFlashAttribute("errorMessage", "invalid username or password");
             return "redirect:/sign_in";
         }
 
         String existingPassword = existingUser.get().getPassword();
         if (!passwordEncoder.matches(user.getPassword(), existingPassword)) {
             System.out.println("Incorrect password");
-            redirectAttributes.addFlashAttribute("errorMessage", "invalid email and password");
+            redirectAttributes.addFlashAttribute("errorMessage", "invalid username or password");
             return "redirect:/sign_in";
         }
         session.setAttribute("loggedInUser", existingUser);
 
         return "redirect:/accounts";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/sign_in";
+    }
+
+    @GetMapping("/")
+    public String home() {
+        System.out.println("Home");
+        return "home";
     }
 }

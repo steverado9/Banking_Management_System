@@ -24,8 +24,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/sign_in", "/create_user").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/**").permitAll()
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/sign_in?logout")
