@@ -21,21 +21,22 @@ public class Account {
     private AccountType accountType;
 
     @Column(nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
+    private double balance ;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     private LocalDateTime updatedAt;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User owner;
 
     private boolean active = true;
 
     public Account() {}
 
-    public Account(String accountNumber, AccountType accountType, BigDecimal balance, User owner) {
+    public Account(String accountNumber, AccountType accountType, double balance, User owner) {
         this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.balance = balance;
@@ -62,11 +63,11 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public BigDecimal getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
