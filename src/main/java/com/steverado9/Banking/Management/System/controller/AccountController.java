@@ -36,6 +36,18 @@ public class AccountController {
     //post an account after creation
     @PostMapping("/create_account")
     public String saveAccount(@ModelAttribute("account") Account account, Model model, HttpSession session) {
+        // Get the currently logged-in user from session
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        // Assign the user as the owner of the new account
+        account.setOwner(loggedInUser);
+        //set account balance
+        account.setBalance(0.00);
+
         accountService.saveAccount(account);
         return "redirect:/accounts";
     }
@@ -50,7 +62,6 @@ public class AccountController {
     @PutMapping("account/edit/{id}")
     public String updateArticle(@PathVariable Long id, @ModelAttribute("account") Account account, Model model) {
         Account existingAccount = accountService.getAccountById(id);
-        existingAccount.setAccountNumber(account.getAccountNumber());
         existingAccount.setAccountType(account.getAccountType());
         existingAccount.setBalance(account.getBalance());
 
@@ -66,6 +77,7 @@ public class AccountController {
     }
 
     //Display list of accounts
+    @GetMapping("/accounts")
     public String listOfAccounts(Model model, HttpSession session) {
         List<Account> accounts;
         User loggedInUser = (User) session.getAttribute("loggedInUser");
@@ -75,5 +87,4 @@ public class AccountController {
         model.addAttribute("user", loggedInUser);
         return "accounts";
     }
-
 }

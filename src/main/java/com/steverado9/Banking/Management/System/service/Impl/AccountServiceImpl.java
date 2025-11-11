@@ -25,6 +25,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account saveAccount(Account account) {
+        if (account.getAccountNumber() == null || account.getAccountNumber().isEmpty()) {
+            account.setAccountNumber(uniqueAccountNumber());
+        }
         return accountRepository.save(account);
     }
 
@@ -41,5 +44,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountById(Long id) {
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public String uniqueAccountNumber() {
+        String number;
+        do {
+            number = String.valueOf((long) (Math.random() * 9000000000L) + 1000000000L);
+        } while (accountRepository.existsByAccountNumber(number));
+        return number;
     }
 }

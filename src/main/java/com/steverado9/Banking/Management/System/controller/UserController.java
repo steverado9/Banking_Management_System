@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("/create_user")
-    public String saveUSer(@ModelAttribute("user") User user, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String saveUser(@ModelAttribute("user") User user, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         try {
             User loggedInUser = (User) session.getAttribute("loggedInUser");
 
@@ -50,11 +50,11 @@ public class UserController {
 
             user.setPassword(passwordEncoder.encode(user.getPassword())); //hash password
             userService.saveUser(user);
-            redirectAttributes.addFlashAttribute("successMessage", "Member created sucessfully!, please signin");
+            redirectAttributes.addFlashAttribute("successMessage", "user created successfully!, please signin");
 
             return "redirect:/sign_in";
         } catch (DataIntegrityViolationException e) {
-            model.addAttribute("errorMessage", "Email already exists!");
+            redirectAttributes.addFlashAttribute("errorMessage", "User already exists!");
             return "redirect:/create_user";
         }
     }
@@ -76,13 +76,15 @@ public class UserController {
             return "redirect:/sign_in";
         }
 
+        User foundUser = existingUser.get();
+
         String existingPassword = existingUser.get().getPassword();
         if (!passwordEncoder.matches(user.getPassword(), existingPassword)) {
             System.out.println("Incorrect password");
             redirectAttributes.addFlashAttribute("errorMessage", "invalid username or password");
             return "redirect:/sign_in";
         }
-        session.setAttribute("loggedInUser", existingUser);
+        session.setAttribute("loggedInUser", foundUser);
 
         return "redirect:/accounts";
     }

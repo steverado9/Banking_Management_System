@@ -28,8 +28,8 @@ public class Account {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
     private boolean active = true;

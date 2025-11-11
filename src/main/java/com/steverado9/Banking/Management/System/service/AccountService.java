@@ -9,6 +9,8 @@ public interface AccountService {
 
     Account saveAccount(Account account);
 
+    String uniqueAccountNumber();
+
     Account getAccountById(Long id);
 
     Account updateAccount(Account account);

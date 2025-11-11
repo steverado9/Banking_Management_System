@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <h1 class="navbar-brand">
+            Edit Account
+        </h1>
+        <ul class="nav navbar-nav">
+            <li class="active"><a class="text-white text-decoration-none" th:href="@{/accounts}">List of Accounts</a></li>
+        </ul>
+    </div>
+</nav>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <form th:action="@{/account/edit/{id}(id=${account.id})}" th:object="${account}" method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupSelect01">Account Type:</label>
+                <select class="form-select" id="inputGroupSelect01" th:field="*{accountType}">
+                    <option value="" selected>Choose...</option>
+                    <option value="SAVINGS">SAVINGS</option>
+                    <option value="CHECKING">CHECKING</option>
+                    <option value="STUDENT">STUDENT</option>
+                    <option value="BUSINESS">BUSINESS</option>
+                    <option value="FIXED_DEPOSIT">FIXED_DEPOSIT</option>
+                </select>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" th:field="*{active}" id="activeCheck">
+                <label class="form-check-label" for="activeCheck">
+                    Active
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Update account</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    (() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+
 
 </body>
 </html>

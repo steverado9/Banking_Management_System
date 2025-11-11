@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-12">
                         <label for="dateOfBirth" class="form-label">Date of Birth</label>
-                        <input type="text" name="dateOfBirth" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth" placeholder="dateOfBirth" required>
+                        <input type="date" name="dateOfBirth" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth" placeholder="dateOfBirth" required>
                         <div class="invalid-feedback">
                             Please provide a Date Of Birth.
                         </div>
@@ -78,8 +78,8 @@
                         <label for="role" class="form-label">Role</label>
                         <select id="role" th:field="*{role}" class="form-select" required>
                             <option value="" disabled selected>Choose...</option>
-                            <option value="Admin">Librarian</option>
-                            <option value="User">Member</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Customer">Customer</option>
                         </select>
                         <div class="invalid-feedback">
                             Please provide a role.

@@ -11,12 +11,48 @@
     <div class="container-fluid">
         <h1 class="navbar-brand">List of Accounts</h1>
         <ul class="d-flex list-unstyled" role="search">
-            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/create_user}">Create Member</a></li>
-            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/create_account}">Add Book</a></li>
+            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/create_user}">Create User</a></li>
+            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/create_account}">Create Account</a></li>
             <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>
 </nav>
+<br>
+<br>
+<!--List of all the accounts-->
+<div class="container">
+    <div class="row">
+        <div  class="card m-3" style="width: 18rem;" th:each="account : ${accounts}">
+            <p class="card-title text-center mt-2" th:text=" 'Welcome ' + ${user.username}"></p>
+            <div class="card-body p-3">
+                <p class="card-text">
+                    <span>Account Name:</span>
+                    <span th:text="${account.owner.fullname}"></span>
+                </p>
+                <p class="card-text">
+                    <span>Account Number:</span>
+                    <span th:text="${account.accountNumber}"></span>
+                </p>
+                <p class="card-text">
+                    <span>Account Type:</span>
+                    <span th:text="${account.accountType}"></span>
+                </p>
+                <p class="card-text">
+                    <span>Account Balance:</span>
+                    <span th:text="${account.balance}"></span>
+                </p>
+
+                <div class="d-flex">
+                    <a class="btn btn-primary me-2" th:href="@{account/edit/{id}(id=${account.id})}">Update Account</a>
+                    <form th:action="@{/account/delete/{id}(id=${account.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </body>
