@@ -43,11 +43,9 @@ public class UserController {
     public String saveUser(@ModelAttribute("user") User user, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         try {
             User loggedInUser = (User) session.getAttribute("loggedInUser");
-
             if(loggedInUser == null) {
                 return "redirect:/sign_in";
             }
-
             user.setPassword(passwordEncoder.encode(user.getPassword())); //hash password
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("successMessage", "user created successfully!, please signin");
