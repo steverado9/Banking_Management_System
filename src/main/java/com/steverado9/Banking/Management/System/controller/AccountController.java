@@ -1,8 +1,10 @@
 package com.steverado9.Banking.Management.System.controller;
 
 import com.steverado9.Banking.Management.System.entity.Account;
+import com.steverado9.Banking.Management.System.entity.Transaction;
 import com.steverado9.Banking.Management.System.entity.User;
 import com.steverado9.Banking.Management.System.service.AccountService;
+import com.steverado9.Banking.Management.System.service.TransactionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,11 @@ import java.util.List;
 public class AccountController {
 
     private AccountService accountService;
+    private TransactionService transactionService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, TransactionService transactionService) {
         this.accountService = accountService;
+        this.transactionService = transactionService;
     }
 
     //go to the create account page
@@ -86,5 +90,22 @@ public class AccountController {
         model.addAttribute("accounts", accounts);
         model.addAttribute("user", loggedInUser);
         return "accounts";
+    }
+
+    //Customer Dashboard
+    @GetMapping("/dashboard")
+    public String customerDashboard(@PathVariable Long id, Model model, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
+        Account userAccount = accountService.getAccountById(id);
+//        Transaction recentTransaction = transactionService.getTransactionsByAccount(accountId);
+
+        model.addAttribute("user", loggedInUser);
+        model.addAttribute("accounts", userAccount);
+        return "dashboard";
+
     }
 }

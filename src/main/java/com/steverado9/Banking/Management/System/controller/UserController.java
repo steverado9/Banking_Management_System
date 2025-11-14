@@ -84,7 +84,12 @@ public class UserController {
         }
         session.setAttribute("loggedInUser", foundUser);
 
-        return "redirect:/accounts";
+        if ("Admin".equalsIgnoreCase(foundUser.getRole())) {
+            return "redirect:/accounts";
+        } else {
+            return "redirect:/dashboard";
+        }
+
     }
 
     @GetMapping("/logout")
