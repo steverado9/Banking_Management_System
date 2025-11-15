@@ -93,7 +93,7 @@ public class AccountController {
     }
 
     //Customer Dashboard
-    @GetMapping("/dashboard")
+    @GetMapping("/dashboard/{id}")
     public String customerDashboard(@PathVariable Long id, Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
@@ -101,10 +101,11 @@ public class AccountController {
         }
 
         Account userAccount = accountService.getAccountById(id);
-//        Transaction recentTransaction = transactionService.getTransactionsByAccount(accountId);
+        List<Transaction> transactions = transactionService.getTransactionsByAccountId(id);
 
         model.addAttribute("user", loggedInUser);
-        model.addAttribute("accounts", userAccount);
+        model.addAttribute("account", userAccount);
+        model.addAttribute("transactions", transactions);
         return "dashboard";
 
     }

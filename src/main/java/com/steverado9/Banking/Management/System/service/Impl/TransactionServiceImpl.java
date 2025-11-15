@@ -17,8 +17,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     private AccountRepository accountRepository;
 
-    public TransactionServiceImpl(TransactionRepository transactionRepository, ) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getTransactionsByAccount(Long accountId) {
+    public List<Transaction> getTransactionsByAccountId(Long accountId) {
         return transactionRepository.findByAccountIdOrderByTransactionDateDesc(accountId);
     }
 }

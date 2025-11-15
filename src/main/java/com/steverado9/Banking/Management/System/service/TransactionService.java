@@ -11,6 +11,5 @@ public interface TransactionService {
 
      void transfer(Long fromAccountId, String toAccountNumber, double amount);
 
-     List<Transaction> getTransactionsByAccount(Long accountId);
-
+     List<Transaction> getTransactionsByAccountId(Long accountId);
 }
