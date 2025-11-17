@@ -23,16 +23,8 @@
 </ul>
 <h4>Transactions</h4>
 <table class="table">
-    <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Amount</th>
-    </tr>
-    <tr th:each="tx : ${transactions}">
-        <td th:text="${tx.transactionDate}"></td>
-        <td th:text="${tx.description}"></td>
-        <td th:text="${tx.amount}"></td>
-    </tr>
+
+
 </table>
 </body>
 </html>
