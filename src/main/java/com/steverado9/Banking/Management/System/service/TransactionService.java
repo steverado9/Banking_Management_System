@@ -5,11 +5,11 @@ import com.steverado9.Banking.Management.System.entity.Transaction;
 import java.util.List;
 
 public interface TransactionService {
-     void deposit(Long accountId, double amount);
+     void deposit(Long accountId, Transaction transaction);
 
-     void withdraw(Long accountId, double amount);
+     void withdraw(Long accountId, Transaction transaction);
 
-     void transfer(Long fromAccountId, String toAccountNumber, double amount);
+     void transfer(Long fromAccountId, Transaction transaction);
 
      List<Transaction> getTransactionsByAccountId(Long accountId);
 }

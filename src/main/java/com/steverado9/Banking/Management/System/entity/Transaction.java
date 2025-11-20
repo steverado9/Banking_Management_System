@@ -1,5 +1,6 @@
 package com.steverado9.Banking.Management.System.entity;
 
+import com.steverado9.Banking.Management.System.Enum.TransactionType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String transactionType;
+    private TransactionType transactionType;
 
     private double amount;
 
@@ -24,13 +25,15 @@ public class Transaction {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    private String bank;
+
     private String destinationAccountNumber;
 
     private double balanceAfterTransaction;
 
     public Transaction() {}
 
-    public Transaction(Long id, String transactionType, double amount, LocalDateTime transactionDate, String description, Account account, String destinationAccountNumber, double balanceAfterTransaction) {
+    public Transaction(Long id, TransactionType transactionType, double amount, LocalDateTime transactionDate, String description, Account account, String destinationAccountNumber, double balanceAfterTransaction, String bank) {
         this.id = id;
         this.transactionType = transactionType;
         this.amount = amount;
@@ -39,6 +42,7 @@ public class Transaction {
         this.account = account;
         this.destinationAccountNumber = destinationAccountNumber;
         this.balanceAfterTransaction = balanceAfterTransaction;
+        this.bank = bank;
     }
 
     public Long getId() {
@@ -49,11 +53,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getTransactionType() {
+    public TransactionType getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(String transactionType) {
+    public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -103,5 +107,13 @@ public class Transaction {
 
     public void setBalanceAfterTransaction(double balanceAfterTransaction) {
         this.balanceAfterTransaction = balanceAfterTransaction;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
     }
 }

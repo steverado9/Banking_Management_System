@@ -13,9 +13,9 @@
 </nav>
 <br>
 <br>
-<h2>Welcome, <span th:text="${user.name}"></span>!</h2>
+<h2>Welcome, <span th:text="${user.fullname}"></span>!</h2>
 
-<h4>Your Accounts</h4>
+<h4>Account Details</h4>
 <ul>
     <li th:text="${account.accountType}"></li>
     <li th:text="${account.accountNumber}"></li>
@@ -23,9 +23,9 @@
 </ul>
 <h4>Actions</h4>
 <ul>
-    <li>Withdrawal</li>
-    <li>Deposit</li>
-    <li>Transfer</li>
+    <li><a th:href="@{/withdraw}">Withdrawal</a></li>
+    <li><a th:href="@{/deposit}">Deposit</a></li>
+    <li><a th:href="@{/transfer}">Transfer</a></li>
 </ul>
 <h4>Transactions</h4>
 <table class="table">

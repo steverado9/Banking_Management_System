@@ -11,6 +11,8 @@ public interface AccountService {
 
     String uniqueAccountNumber();
 
+    Account getAccountByUserId(Long id);
+
     Account getAccountById(Long id);
 
     Account updateAccount(Account account);

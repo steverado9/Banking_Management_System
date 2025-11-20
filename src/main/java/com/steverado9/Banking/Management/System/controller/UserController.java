@@ -1,6 +1,8 @@
 package com.steverado9.Banking.Management.System.controller;
 
+import com.steverado9.Banking.Management.System.entity.Account;
 import com.steverado9.Banking.Management.System.entity.User;
+import com.steverado9.Banking.Management.System.service.AccountService;
 import com.steverado9.Banking.Management.System.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,11 +21,13 @@ import java.util.Optional;
 public class UserController {
     private UserService userService;
     private PasswordEncoder passwordEncoder;
+    private AccountService accountService;
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, AccountService accountService) {
         super();
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.accountService = accountService;
     }
 
     @GetMapping("/create_user")
@@ -87,7 +91,11 @@ public class UserController {
         if ("Admin".equalsIgnoreCase(foundUser.getRole())) {
             return "redirect:/accounts";
         } else {
-            return "redirect:/dashboard";
+            Account account = accountService.getAccountByUserId(existingUser.get().getId());
+            if (account == null) {
+                return "redirect:/create_account";
+            }
+            return "redirect:/dashboard/" + account.getId();
         }
 
     }

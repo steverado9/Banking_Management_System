@@ -1,5 +1,6 @@
 package com.steverado9.Banking.Management.System.service.Impl;
 
+import com.steverado9.Banking.Management.System.Enum.TransactionType;
 import com.steverado9.Banking.Management.System.entity.Account;
 import com.steverado9.Banking.Management.System.entity.Transaction;
 import com.steverado9.Banking.Management.System.repository.AccountRepository;
@@ -23,27 +24,31 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void deposit(Long accountId, double amount) {
+    public void deposit(Long accountId, Transaction transaction) {
         Account account = accountRepository.findById(accountId).
                 orElseThrow(() -> new RuntimeException("Account not found"));
 
+        double amount = transaction.getAmount();
+
         account.setBalance(account.getBalance() + amount);
 
-        Transaction tx = new Transaction();
-        tx.setTransactionType("DEPOSIT");
-        tx.setAmount(amount);
-        tx.setAccount(account);
-        tx.setDescription("Deposit to account");
-        tx.setBalanceAfterTransaction(account.getBalance());
 
-        transactionRepository.save(tx);
+        transaction.setTransactionType(TransactionType.DEPOSIT);
+        transaction.setAmount(amount);
+        transaction.setAccount(account);
+        transaction.setDescription("Deposit to account");
+        transaction.setBalanceAfterTransaction(account.getBalance());
+
+        transactionRepository.save(transaction);
         accountRepository.save(account);
     }
 
     @Override
-    public void withdraw(Long accountId, double amount) {
+    public void withdraw(Long accountId, Transaction transaction) {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        double amount = transaction.getAmount();
 
         if (account.getBalance() < amount) {
             throw new RuntimeException("Insufficient funds");
@@ -51,53 +56,38 @@ public class TransactionServiceImpl implements TransactionService {
 
         account.setBalance(account.getBalance() - amount);
 
-        Transaction tx = new Transaction();
-        tx.setTransactionType("WITHDRAWAL");
-        tx.setAmount(amount);
-        tx.setAccount(account);
-        tx.setDescription("Withdrawal from account");
-        tx.setBalanceAfterTransaction(account.getBalance());
+        transaction.setTransactionType(TransactionType.WITHDRAWAL);
+        transaction.setAmount(amount);
+        transaction.setAccount(account);
+        transaction.setDescription("Withdrawal from account");
+        transaction.setBalanceAfterTransaction(account.getBalance());
 
-        transactionRepository.save(tx);
+        transactionRepository.save(transaction);
         accountRepository.save(account);
     }
 
     @Override
-    public void transfer(Long fromAccountId, String toAccountNumber, double amount) {
-        Account sender = accountRepository.findById(fromAccountId)
+    public void transfer(Long fromAccountId, Transaction transaction) {
+        Account account = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new RuntimeException("Sender account not found"));
-//        Account receiver = accountRepository.findByAccountNumber(toAccountNumber)
-//                .orElseThrow(() -> new RuntimeException("Receiver account not found"));
 
-        if (sender.getBalance() < amount) {
+        double amount = transaction.getAmount();
+
+        String toAccountNumber = transaction.getDestinationAccountNumber();
+
+        if (account.getBalance() < amount) {
             throw new RuntimeException("Insufficient funds");
         }
 
-//        sender.setBalance(sender.getBalance() - amount);
-//        receiver.setBalance(receiver.getBalance() + amount);
+        account.setBalance(account.getBalance() - amount);
 
-        // Record sender transaction
-        Transaction txSender = new Transaction();
-        txSender.setTransactionType("TRANSFER");
-        txSender.setAmount(amount);
-        txSender.setAccount(sender);
-        txSender.setDestinationAccountNumber(toAccountNumber);
-        txSender.setDescription("Transfer to " + toAccountNumber);
-        txSender.setBalanceAfterTransaction(sender.getBalance());
-        transactionRepository.save(txSender);
-
-        // Record receiver transaction
-//        Transaction txReceiver = new Transaction();
-//        txReceiver.setTransactionType("TRANSFER");
-//        txReceiver.setAmount(amount);
-//        txReceiver.setAccount(receiver);
-//        txReceiver.setDestinationAccountNumber(sender.getAccountNumber());
-//        txReceiver.setDescription("Transfer from " + sender.getAccountNumber());
-//        txReceiver.setBalanceAfterTransaction(receiver.getBalance());
-//        transactionRepository.save(txReceiver);
-//
-//        accountRepository.save(sender);
-//        accountRepository.save(receiver);
+        transaction.setTransactionType(TransactionType.TRANSFER);
+        transaction.setAmount(amount);
+        transaction.setAccount(account);
+        transaction.setDestinationAccountNumber(toAccountNumber);
+        transaction.setDescription("Transfer to " + toAccountNumber);
+        transaction.setBalanceAfterTransaction(account.getBalance());
+        transactionRepository.save(transaction);
     }
 
     @Override

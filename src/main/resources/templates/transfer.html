@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <p>Transfer</p>
+  </div>
+</nav>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <form th:action="@{/transfer}" method="post" th:object="${transaction}">
+      <div class="input-group mb-3">
+        <span class="input-group-text" >Amount:</span>
+        <input type="number" th:field="*{amount}" class="form-control" placeholder="amount" >
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" >Bank:</span>
+        <input type="text" th:field="*{bank}" class="form-control" placeholder="bank" >
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" >Account Number:</span>
+        <input type="text" th:field="*{destinationAccountNumber}" class="form-control" placeholder="account number" >
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" >Description:</span>
+        <input type="text" th:field="*{description}" class="form-control" placeholder="description" >
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
