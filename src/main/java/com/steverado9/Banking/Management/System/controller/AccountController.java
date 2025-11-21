@@ -52,8 +52,8 @@ public class AccountController {
         //set account balance
         account.setBalance(0.00);
 
-        accountService.saveAccount(account);
-        return "redirect:/accounts";
+        Account savedAccount = accountService.saveAccount(account);
+        return "redirect:/dashboard/" + savedAccount.getId();
     }
 
     //Edit an account

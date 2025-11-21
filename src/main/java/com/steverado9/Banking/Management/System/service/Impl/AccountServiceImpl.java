@@ -2,6 +2,7 @@ package com.steverado9.Banking.Management.System.service.Impl;
 
 import com.steverado9.Banking.Management.System.entity.Account;
 import com.steverado9.Banking.Management.System.repository.AccountRepository;
+import com.steverado9.Banking.Management.System.repository.TransactionRepository;
 import com.steverado9.Banking.Management.System.service.AccountService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,11 @@ public class AccountServiceImpl implements AccountService {
 
     private AccountRepository accountRepository;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    private TransactionRepository transactionRepository;
+
+    public AccountServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
@@ -47,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteAccountById(Long id) {
+        transactionRepository.deleteByAccountId(id);
         accountRepository.deleteById(id);
     }
 

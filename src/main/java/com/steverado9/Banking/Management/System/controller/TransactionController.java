@@ -5,10 +5,7 @@ import com.steverado9.Banking.Management.System.entity.Transaction;
 import com.steverado9.Banking.Management.System.service.TransactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TransactionController {
@@ -18,42 +15,45 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/deposit")
-    public String depositForm(Model model) {
+    @GetMapping("/account/{accountId}/deposit")
+    public String depositForm(@PathVariable Long accountId, Model model) {
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
+        model.addAttribute("accountId", accountId);
         return "deposit";
     }
 
-    @PostMapping("/deposit")
-    public String SaveDeposit(@RequestParam Long accountId, @ModelAttribute("transaction") Transaction transaction) {
+    @PostMapping("/account/{accountId}/deposit")
+    public String SaveDeposit(@PathVariable Long accountId, @ModelAttribute("transaction") Transaction transaction) {
             transactionService.deposit(accountId, transaction);
-            return "redirect:/dashboard";
+            return "redirect:/dashboard/" + accountId;
     }
 
-    @GetMapping("/withdraw")
-    public String withdrawalForm(Model model) {
+    @GetMapping("/account/{accountId}/withdraw")
+    public String withdrawalForm(@PathVariable Long accountId, Model model) {
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
+        model.addAttribute("accountId", accountId);
         return "withdraw";
     }
 
-    @PostMapping("/withdraw")
-    public String saveWithdrawal(@RequestParam Long accountId, @ModelAttribute("transaction") Transaction transaction) {
+    @PostMapping("/account/{accountId}/withdraw")
+    public String saveWithdrawal(@PathVariable Long accountId, @ModelAttribute("transaction") Transaction transaction) {
         transactionService.withdraw(accountId, transaction);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/" + accountId;
     }
 
-    @GetMapping("/transfer")
-    public String transferForm(Model model) {
+    @GetMapping("/account/{accountId}/transfer")
+    public String transferForm(@PathVariable Long accountId, Model model) {
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
+        model.addAttribute("accountId", accountId);
         return "transfer";
     }
 
-    @PostMapping("/transfer")
-    public String transfer(@RequestParam Long accountId, @ModelAttribute("transaction") Transaction transaction) {
+    @PostMapping("/account/{accountId}/transfer")
+    public String transfer(@PathVariable Long accountId, @ModelAttribute("transaction") Transaction transaction) {
         transactionService.transfer(accountId, transaction);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/" + accountId;
     }
 }

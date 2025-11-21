@@ -90,14 +90,14 @@ public class UserController {
 
         if ("Admin".equalsIgnoreCase(foundUser.getRole())) {
             return "redirect:/accounts";
-        } else {
-            Account account = accountService.getAccountByUserId(existingUser.get().getId());
-            if (account == null) {
-                return "redirect:/create_account";
-            }
-            return "redirect:/dashboard/" + account.getId();
         }
 
+        Account account = accountService.getAccountByUserId(existingUser.get().getId());
+        if (account == null) {
+            return "redirect:/create_account";
+        }
+
+        return "redirect:/dashboard/" + account.getId();
     }
 
     @GetMapping("/logout")

@@ -8,14 +8,14 @@
 <body>
 <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
   <div class="container-fluid">
-    <p>Transfer</p>
+    <h1 class="navbar-brand">Transfer</h1>
   </div>
 </nav>
 <br>
 <br>
 <div class="container">
   <div class="row">
-    <form th:action="@{/transfer}" method="post" th:object="${transaction}">
+    <form th:action="@{/account/{id}/transfer(id=${accountId})}" method="post" th:object="${transaction}">
       <div class="input-group mb-3">
         <span class="input-group-text" >Amount:</span>
         <input type="number" th:field="*{amount}" class="form-control" placeholder="amount" >

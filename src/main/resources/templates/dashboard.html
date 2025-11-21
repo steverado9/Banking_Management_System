@@ -8,7 +8,10 @@
 <body>
 <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-        <p>My Dashboard</p>
+        <h1 class="navbar-brand">My Dashboard</h1>
+        <ul class="d-flex list-unstyled" role="search">
+            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/logout}">Logout</a></li>
+        </ul>
     </div>
 </nav>
 <br>
@@ -23,9 +26,9 @@
 </ul>
 <h4>Actions</h4>
 <ul>
-    <li><a th:href="@{/withdraw}">Withdrawal</a></li>
-    <li><a th:href="@{/deposit}">Deposit</a></li>
-    <li><a th:href="@{/transfer}">Transfer</a></li>
+    <li><a th:href="@{/account/{id}/withdraw(id=${account.id})}">Withdrawal</a></li>
+    <li><a th:href="@{/account/{id}/deposit(id=${account.id})}">Deposit</a></li>
+    <li><a th:href="@{/account/{id}/transfer(id=${account.id})}">Transfer</a></li>
 </ul>
 <h4>Transactions</h4>
 <table class="table">
