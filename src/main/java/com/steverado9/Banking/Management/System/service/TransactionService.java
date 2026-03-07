@@ -12,4 +12,8 @@ public interface TransactionService {
      void transfer(Long fromAccountId, Transaction transaction);
 
      List<Transaction> getTransactionsByAccountId(Long accountId);
+
+     double totalDeposits(List<Transaction> transactions);
+
+     double totalWithdrawals(List<Transaction> transactions);
 }

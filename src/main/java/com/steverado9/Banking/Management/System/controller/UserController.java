@@ -54,7 +54,7 @@ public class UserController {
             userService.saveUser(user);
             redirectAttributes.addFlashAttribute("successMessage", "user created successfully!, please signin");
 
-            return "redirect:/sign_in";
+            return "redirect:/accounts";
         } catch (DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "User already exists!");
             return "redirect:/create_user";

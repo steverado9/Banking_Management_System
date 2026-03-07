@@ -10,6 +10,7 @@
     <div class="container-fluid">
         <h1 class="navbar-brand">My Dashboard</h1>
         <ul class="d-flex list-unstyled" role="search">
+            <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/dashboard/{id}/analytics(id=${account.id})}">Financial Dashboard</a></li>
             <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>

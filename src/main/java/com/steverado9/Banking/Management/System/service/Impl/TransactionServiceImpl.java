@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.steverado9.Banking.Management.System.Enum.TransactionType.*;
+
 @Service
 @Transactional
 public class TransactionServiceImpl implements TransactionService {
@@ -33,7 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
         account.setBalance(account.getBalance() + amount);
 
 
-        transaction.setTransactionType(TransactionType.DEPOSIT);
+        transaction.setTransactionType(DEPOSIT);
         transaction.setAmount(amount);
         transaction.setAccount(account);
         transaction.setDescription("Deposit to account");
@@ -93,5 +95,31 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getTransactionsByAccountId(Long accountId) {
         return transactionRepository.findByAccountIdOrderByTransactionDateDesc(accountId);
+    }
+
+    @Override
+    public double totalDeposits(List<Transaction> transactions) {
+
+        double sum = 0;
+
+        for(Transaction transaction : transactions) {
+            if(transaction.getTransactionType() == DEPOSIT) {
+                sum+=transaction.getAmount();
+            }
+        }
+        return sum;
+    }
+
+    @Override
+    public double totalWithdrawals(List<Transaction> transactions) {
+
+        double sum = 0;
+
+        for(Transaction transaction : transactions) {
+            if(transaction.getTransactionType() == WITHDRAWAL || transaction.getTransactionType() == TRANSFER) {
+                sum+=transaction.getAmount();
+            }
+        }
+        return sum;
     }
 }
