@@ -17,15 +17,24 @@
 </nav>
 <br>
 <br>
-<div>
-    <canvas id="barChart" width="400" height="200"></canvas>
+<div style="height: 600px">
+    <canvas id="barChart" class="w-100 mb-4" ></canvas>
 </div>
-<div>
-    <canvas id="moneyChart" width="400" height="200"></canvas>
+<div class="d-flex gap-4 w-100" style="height: 650px">
+    <div class="flex-fill h-100">
+        <canvas id="moneyChart" ></canvas>
+    </div>
+    <div class="flex-fill h-100">
+        <canvas id="doughnutChart"></canvas>
+    </div>
 </div>
+
+
 <script>
     const barChart = document.getElementById('barChart');
     const pieChart = document.getElementById('moneyChart');
+    const doughnutChart = document.getElementById('doughnutChart');
+
     let received = [[${received}]];
     let spent = [[${spent}]];
 
@@ -57,6 +66,22 @@
         }]
       }
     });
+
+    new Chart(doughnutChart, {
+        type: 'doughnut',
+        data: {
+            labels: ['Money received', 'Money spent'],
+            datasets: [{
+                data: [received, spent],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+                hoverOffset: 4
+            }]
+        },
+    });
+
 </script>
 </body>
 </html>
