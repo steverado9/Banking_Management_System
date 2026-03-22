@@ -2,7 +2,9 @@ package com.steverado9.Banking.Management.System.controller;
 
 import com.steverado9.Banking.Management.System.entity.Account;
 import com.steverado9.Banking.Management.System.entity.Transaction;
+import com.steverado9.Banking.Management.System.entity.User;
 import com.steverado9.Banking.Management.System.service.TransactionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,13 @@ public class TransactionController {
     }
 
     @GetMapping("/account/{accountId}/deposit")
-    public String depositForm(@PathVariable Long accountId, Model model) {
+    public String depositForm(@PathVariable Long accountId, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
         model.addAttribute("accountId", accountId);
@@ -30,7 +38,13 @@ public class TransactionController {
     }
 
     @GetMapping("/account/{accountId}/withdraw")
-    public String withdrawalForm(@PathVariable Long accountId, Model model) {
+    public String withdrawalForm(@PathVariable Long accountId, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
         model.addAttribute("accountId", accountId);
@@ -44,7 +58,13 @@ public class TransactionController {
     }
 
     @GetMapping("/account/{accountId}/transfer")
-    public String transferForm(@PathVariable Long accountId, Model model) {
+    public String transferForm(@PathVariable Long accountId, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
         Transaction transaction = new Transaction();
         model.addAttribute("transaction", transaction);
         model.addAttribute("accountId", accountId);

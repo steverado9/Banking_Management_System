@@ -44,7 +44,7 @@
 
                 <div class="d-flex">
                     <a class="btn btn-primary me-2" th:href="@{account/edit/{id}(id=${account.id})}">Update Account</a>
-                    <form th:action="@{/account/delete/{id}(id=${account.id})}" method="post">
+                    <form th:action="@{/account/delete/{id}(id=${account.id})}" method="post" class="delete-form">
                         <input type="hidden" name="_method" value="delete" />
                         <button type="submit" class="btn btn-danger">Delete Account</button>
                     </form>
@@ -54,6 +54,28 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+    document.querySelectorAll(".delete-form").forEach(form => {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

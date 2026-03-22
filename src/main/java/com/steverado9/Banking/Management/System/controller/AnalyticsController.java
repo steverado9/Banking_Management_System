@@ -2,9 +2,11 @@ package com.steverado9.Banking.Management.System.controller;
 
 import com.steverado9.Banking.Management.System.entity.Account;
 import com.steverado9.Banking.Management.System.entity.Transaction;
+import com.steverado9.Banking.Management.System.entity.User;
 import com.steverado9.Banking.Management.System.repository.TransactionRepository;
 import com.steverado9.Banking.Management.System.service.AccountService;
 import com.steverado9.Banking.Management.System.service.TransactionService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,12 @@ public class AnalyticsController {
     private TransactionService transactionService;
 
     @GetMapping("/dashboard/{id}/analytics")
-    public String analytics(@PathVariable Long id, Model model) {
+    public String analytics(@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
 
         Account userAccount = accountService.getAccountById(id);
         List<Transaction> transactions = transactionService.getTransactionsByAccountId(id);

@@ -58,7 +58,13 @@ public class AccountController {
 
     //Edit an account
     @GetMapping("account/edit/{id}")
-    public String editAccountForm(@PathVariable Long id, Model model) {
+    public String editAccountForm(@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
         model.addAttribute("account", accountService.getAccountById(id));
         return "edit_account";
     }
@@ -83,8 +89,14 @@ public class AccountController {
     //Display list of accounts
     @GetMapping("/accounts")
     public String listOfAccounts(Model model, HttpSession session) {
+
         List<Account> accounts;
+
         User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/sign_in";
+        }
+
         accounts = accountService.getAllAccounts();
 
         model.addAttribute("accounts", accounts);
